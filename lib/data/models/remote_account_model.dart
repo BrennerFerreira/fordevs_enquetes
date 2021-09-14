@@ -1,4 +1,5 @@
-import 'package:fordevs_enquetes/domain/entities/account_entity.dart';
+import '../../domain/entities/entities.dart';
+import '../http/http.dart';
 
 class RemoteAccountModel {
   final String token;
@@ -6,6 +7,9 @@ class RemoteAccountModel {
   RemoteAccountModel(this.token);
 
   factory RemoteAccountModel.fromJson(Map<String, dynamic> json) {
+    if (!json.containsKey('accessToken')) {
+      throw HttpError.invalidData;
+    }
     return RemoteAccountModel(json['accessToken']);
   }
 
