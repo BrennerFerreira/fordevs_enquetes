@@ -9,12 +9,17 @@ import 'remote_authentication_test.mocks.dart';
 
 @GenerateMocks([HttpClient])
 void main() {
-  test('Should call HttpClient with correct values', () async {
-    // arrange
-    final httpClient = MockHttpClient();
-    final url = faker.internet.httpUrl();
-    final sut = RemoteAuthentication(httpClient: httpClient, url: url);
+  late RemoteAuthentication sut;
+  late HttpClient httpClient;
+  late String url;
 
+  setUp(() {
+    httpClient = MockHttpClient();
+    url = faker.internet.httpUrl();
+    sut = RemoteAuthentication(httpClient: httpClient, url: url);
+  });
+
+  test('Should call HttpClient with correct values', () async {
     // act
     await sut.auth();
 
