@@ -2,6 +2,7 @@ import 'package:faker/faker.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fordevs_enquetes/data/http/http.dart';
 import 'package:fordevs_enquetes/data/usecases/remote_authentication.dart';
+import 'package:fordevs_enquetes/domain/errors/domain_error.dart';
 import 'package:fordevs_enquetes/domain/usecases/usecases.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
@@ -11,7 +12,7 @@ import 'remote_authentication_test.mocks.dart';
 @GenerateMocks([HttpClient])
 void main() {
   late RemoteAuthentication sut;
-  late HttpClient httpClient;
+  late MockHttpClient httpClient;
   late String url;
 
   setUp(() {
@@ -41,5 +42,25 @@ void main() {
         },
       ),
     );
+  });
+
+  test('Should UnexpectedError if HttpClient returns 400', () async {
+    // arrange
+    final params = AuthenticationParams(
+      email: faker.internet.email(),
+      password: faker.internet.password(),
+    );
+
+    when(httpClient.request(
+      url: anyNamed('url'),
+      method: anyNamed('method'),
+      body: anyNamed('body'),
+    )).thenThrow(HttpError.badRequest);
+
+    // act
+    final future = sut.auth(params);
+
+    // assert
+    expect(future, throwsA(DomainError.unexpected));
   });
 }
