@@ -1,3 +1,3 @@
 abstract class HttpClient {
-  Future<void> request({required String url});
+  Future<void> request({required String url, required String method});
 }
