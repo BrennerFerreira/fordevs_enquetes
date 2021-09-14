@@ -1,6 +1,5 @@
-import 'package:fordevs_enquetes/domain/usecases/authentication.dart';
-
-import 'http_client.dart';
+import '../../domain/usecases/authentication.dart';
+import '../http/http.dart';
 
 class RemoteAuthentication {
   final HttpClient httpClient;
@@ -12,8 +11,6 @@ class RemoteAuthentication {
   });
 
   Future<void> auth(AuthenticationParams params) async {
-    final body = {'email': params.email, 'password': params.password};
-
-    await httpClient.request(url: url, method: 'post', body: body);
+    await httpClient.request(url: url, method: 'post', body: params.toMap());
   }
 }
