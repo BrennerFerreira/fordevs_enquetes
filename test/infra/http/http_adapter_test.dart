@@ -9,12 +9,18 @@ import './http_adapter_test.mocks.dart';
 
 @GenerateMocks([Client])
 void main() {
+  late MockClient client;
+  late HttpAdapter sut;
+  late String url;
+
+  setUp(() {
+    client = MockClient();
+    sut = HttpAdapter(client);
+    url = faker.internet.httpUrl();
+  });
+
   group('post', () {
     test('should call post with correct values', () async {
-      final client = MockClient();
-      final sut = HttpAdapter(client);
-      final url = faker.internet.httpUrl();
-
       when(client.post(any, headers: anyNamed('headers')))
           .thenAnswer((_) async => Response(
                 faker.lorem.sentence(),
