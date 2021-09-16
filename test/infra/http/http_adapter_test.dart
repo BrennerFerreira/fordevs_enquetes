@@ -15,11 +15,21 @@ void main() {
       final sut = HttpAdapter(client);
       final url = faker.internet.httpUrl();
 
-      when(client.post(any)).thenAnswer((_) async => Response('body', 200));
+      when(client.post(any, headers: anyNamed('headers')))
+          .thenAnswer((_) async => Response(
+                faker.lorem.sentence(),
+                faker.randomGenerator.integer(1000),
+              ));
 
       await sut.request(url: url, method: 'post');
 
-      verify(client.post(Uri.parse(url))).called(1);
+      verify(client.post(
+        Uri.parse(url),
+        headers: {
+          'content-type': 'application/json',
+          'accept': 'application/json',
+        },
+      )).called(1);
     });
   });
 }
