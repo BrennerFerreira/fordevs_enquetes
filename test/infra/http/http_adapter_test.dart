@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:faker/faker.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fordevs_enquetes/infra/http/http_adapter.dart';
@@ -36,6 +38,39 @@ void main() {
           'accept': 'application/json',
         },
       )).called(1);
+    });
+
+    test('should call post with correct body', () async {
+      when(client.post(
+        any,
+        headers: anyNamed('headers'),
+        body: anyNamed('body'),
+      )).thenAnswer((_) async => Response(
+            faker.lorem.sentence(),
+            faker.randomGenerator.integer(1000),
+          ));
+
+      await sut.request(url: url, method: 'post', body: {'anyKey': 'anyValue'});
+      verify(client.post(
+        any,
+        headers: anyNamed('headers'),
+        body: jsonEncode({"anyKey": "anyValue"}),
+      )).called(1);
+    });
+
+    test('should call post without body', () async {
+      when(client.post(
+        any,
+        headers: anyNamed('headers'),
+        body: anyNamed('body'),
+      )).thenAnswer((_) async => Response(
+            faker.lorem.sentence(),
+            faker.randomGenerator.integer(1000),
+          ));
+
+      await sut.request(url: url, method: 'post');
+
+      verify(client.post(any, headers: anyNamed('headers'))).called(1);
     });
   });
 }

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:http/http.dart';
 
 class HttpAdapter {
@@ -15,6 +17,12 @@ class HttpAdapter {
     required String method,
     Map<String, dynamic>? body,
   }) async {
-    await client.post(Uri.parse(url), headers: headers);
+    final jsonBody = body != null ? jsonEncode(body) : null;
+
+    await client.post(
+      Uri.parse(url),
+      headers: headers,
+      body: jsonBody,
+    );
   }
 }
