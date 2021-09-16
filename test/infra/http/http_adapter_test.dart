@@ -24,10 +24,7 @@ void main() {
   group('post', () {
     test('should call post with correct values', () async {
       when(client.post(any, headers: anyNamed('headers')))
-          .thenAnswer((_) async => Response(
-                faker.lorem.sentence(),
-                faker.randomGenerator.integer(1000),
-              ));
+          .thenAnswer((_) async => Response('{"anyKey": "anyValue"}', 200));
 
       await sut.request(url: url, method: 'post');
 
@@ -45,10 +42,7 @@ void main() {
         any,
         headers: anyNamed('headers'),
         body: anyNamed('body'),
-      )).thenAnswer((_) async => Response(
-            faker.lorem.sentence(),
-            faker.randomGenerator.integer(1000),
-          ));
+      )).thenAnswer((_) async => Response('{"anyKey": "anyValue"}', 200));
 
       await sut.request(url: url, method: 'post', body: {'anyKey': 'anyValue'});
       verify(client.post(
@@ -63,14 +57,23 @@ void main() {
         any,
         headers: anyNamed('headers'),
         body: anyNamed('body'),
-      )).thenAnswer((_) async => Response(
-            faker.lorem.sentence(),
-            faker.randomGenerator.integer(1000),
-          ));
+      )).thenAnswer((_) async => Response('{"anyKey": "anyValue"}', 200));
 
       await sut.request(url: url, method: 'post');
 
       verify(client.post(any, headers: anyNamed('headers'))).called(1);
+    });
+
+    test('should return data if post returns 200', () async {
+      when(client.post(
+        any,
+        headers: anyNamed('headers'),
+        body: anyNamed('body'),
+      )).thenAnswer((_) async => Response('{"anyKey": "anyValue"}', 200));
+
+      final response = await sut.request(url: url, method: 'post');
+
+      expect(response, {'anyKey': 'anyValue'});
     });
   });
 }

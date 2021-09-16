@@ -2,7 +2,9 @@ import 'dart:convert';
 
 import 'package:http/http.dart';
 
-class HttpAdapter {
+import '../../data/http/http.dart';
+
+class HttpAdapter implements HttpClient {
   final Client client;
 
   HttpAdapter(this.client);
@@ -12,17 +14,19 @@ class HttpAdapter {
     'accept': 'application/json',
   };
 
-  Future<void> request({
+  Future<Map<String, dynamic>> request({
     required String url,
     required String method,
     Map<String, dynamic>? body,
   }) async {
     final jsonBody = body != null ? jsonEncode(body) : null;
 
-    await client.post(
+    final response = await client.post(
       Uri.parse(url),
       headers: headers,
       body: jsonBody,
     );
+
+    return jsonDecode(response.body);
   }
 }
