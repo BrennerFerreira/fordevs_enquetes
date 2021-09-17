@@ -25,8 +25,10 @@ class HttpAdapter implements HttpClient {
         return response.body.isEmpty
             ? {'accessToken': null}
             : jsonDecode(response.body);
-      } else {
+      } else if (response.statusCode == 204) {
         return {'accessToken': null};
+      } else {
+        throw HttpError.badRequest;
       }
     }
 

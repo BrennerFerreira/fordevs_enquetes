@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:faker/faker.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:fordevs_enquetes/data/http/http_error.dart';
 import 'package:fordevs_enquetes/infra/http/http.dart';
 import 'package:http/http.dart';
 import 'package:mockito/annotations.dart';
@@ -89,6 +90,14 @@ void main() {
 
       expect(response.containsKey('accessToken'), true);
       expect(response['accessToken'], null);
+    });
+
+    test('should return BadRequestError if post returns 400', () async {
+      mockResponse(statusCode: 400);
+
+      final futureResponse = sut.request(url: url, method: 'post');
+
+      expect(futureResponse, throwsA(HttpError.badRequest));
     });
   });
 }
