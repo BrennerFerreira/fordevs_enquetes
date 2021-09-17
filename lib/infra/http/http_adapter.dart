@@ -41,6 +41,10 @@ class HttpAdapter implements HttpClient {
     required String method,
     Map<String, dynamic>? body,
   }) async {
+    if (method != 'post') {
+      throw HttpError.serverError;
+    }
+
     final jsonBody = body != null ? jsonEncode(body) : null;
 
     final response = await client.post(
