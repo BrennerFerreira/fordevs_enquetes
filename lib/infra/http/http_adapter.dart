@@ -14,6 +14,7 @@ class HttpAdapter implements HttpClient {
     'accept': 'application/json',
   };
 
+  @override
   Future<Map<String, dynamic>> request({
     required String url,
     required String method,
@@ -27,6 +28,8 @@ class HttpAdapter implements HttpClient {
       body: jsonBody,
     );
 
-    return jsonDecode(response.body);
+    return response.body.isEmpty
+        ? {'accessToken': null}
+        : jsonDecode(response.body);
   }
 }

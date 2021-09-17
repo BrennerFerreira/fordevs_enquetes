@@ -75,5 +75,17 @@ void main() {
 
       expect(response, {'anyKey': 'anyValue'});
     });
+
+    test('should return null if post returns 200 without data', () async {
+      when(client.post(
+        any,
+        headers: anyNamed('headers'),
+        body: anyNamed('body'),
+      )).thenAnswer((_) async => Response('', 200));
+
+      final response = await sut.request(url: url, method: 'post');
+
+      expect(response['accessToken'], null);
+    });
   });
 }
