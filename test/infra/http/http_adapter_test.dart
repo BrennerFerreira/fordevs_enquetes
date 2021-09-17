@@ -116,6 +116,14 @@ void main() {
       expect(futureResponse, throwsA(HttpError.forbidden));
     });
 
+    test('should return NotFoundError if post returns 404', () async {
+      mockResponse(statusCode: 404);
+
+      final futureResponse = sut.request(url: url, method: 'post');
+
+      expect(futureResponse, throwsA(HttpError.notFound));
+    });
+
     test('should return ServerError if post returns 500', () async {
       mockResponse(statusCode: 500);
 
