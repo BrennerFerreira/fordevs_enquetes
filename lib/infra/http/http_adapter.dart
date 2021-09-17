@@ -20,6 +20,16 @@ class HttpAdapter implements HttpClient {
     required String method,
     Map<String, dynamic>? body,
   }) async {
+    Map<String, dynamic> _handleResponse(Response response) {
+      if (response.statusCode == 200) {
+        return response.body.isEmpty
+            ? {'accessToken': null}
+            : jsonDecode(response.body);
+      } else {
+        return {'accessToken': null};
+      }
+    }
+
     final jsonBody = body != null ? jsonEncode(body) : null;
 
     final response = await client.post(
@@ -28,12 +38,6 @@ class HttpAdapter implements HttpClient {
       body: jsonBody,
     );
 
-    if (response.statusCode == 200) {
-      return response.body.isEmpty
-          ? {'accessToken': null}
-          : jsonDecode(response.body);
-    } else {
-      return {'accessToken': null};
-    }
+    return _handleResponse(response);
   }
 }
