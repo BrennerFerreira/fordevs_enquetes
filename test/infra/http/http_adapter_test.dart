@@ -46,6 +46,8 @@ void main() {
       mockRequest().thenAnswer((_) async => Response(body, statusCode ?? 200));
     }
 
+    void mockError() => mockRequest().thenThrow(Exception());
+
     setUp(() => mockResponse());
 
     test('should call post with correct values', () async {
@@ -134,6 +136,14 @@ void main() {
 
     test('should return ServerError if post returns 500', () async {
       mockResponse(statusCode: 500);
+
+      final futureResponse = sut.request(url: url, method: 'post');
+
+      expect(futureResponse, throwsA(HttpError.serverError));
+    });
+
+    test('should return ServerError if post throws', () async {
+      mockError();
 
       final futureResponse = sut.request(url: url, method: 'post');
 
