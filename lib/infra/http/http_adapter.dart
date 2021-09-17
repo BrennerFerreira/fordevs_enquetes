@@ -28,8 +28,12 @@ class HttpAdapter implements HttpClient {
       body: jsonBody,
     );
 
-    return response.body.isEmpty
-        ? {'accessToken': null}
-        : jsonDecode(response.body);
+    if (response.statusCode == 200) {
+      return response.body.isEmpty
+          ? {'accessToken': null}
+          : jsonDecode(response.body);
+    } else {
+      return {'accessToken': null};
+    }
   }
 }

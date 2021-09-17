@@ -69,14 +69,25 @@ void main() {
 
       final response = await sut.request(url: url, method: 'post');
 
+      expect(response.containsKey('accessToken'), true);
       expect(response['accessToken'], null);
     });
 
     test('should return null if post returns 204', () async {
-      mockResponse(body: '');
+      mockResponse(statusCode: 204, body: '');
 
       final response = await sut.request(url: url, method: 'post');
 
+      expect(response.containsKey('accessToken'), true);
+      expect(response['accessToken'], null);
+    });
+
+    test('should return null if post returns 204 with data', () async {
+      mockResponse(statusCode: 204);
+
+      final response = await sut.request(url: url, method: 'post');
+
+      expect(response.containsKey('accessToken'), true);
       expect(response['accessToken'], null);
     });
   });
