@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:faker/faker.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:fordevs_enquetes/infra/http/http_adapter.dart';
+import 'package:fordevs_enquetes/infra/http/http.dart';
 import 'package:http/http.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
