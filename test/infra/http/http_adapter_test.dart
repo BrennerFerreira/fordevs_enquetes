@@ -71,5 +71,13 @@ void main() {
 
       expect(response['accessToken'], null);
     });
+
+    test('should return null if post returns 204', () async {
+      mockResponse(body: '');
+
+      final response = await sut.request(url: url, method: 'post');
+
+      expect(response['accessToken'], null);
+    });
   });
 }
