@@ -44,6 +44,20 @@ class LoginPage extends StatelessWidget {
             }
           });
 
+          loginPresenter?.authErrorStream.listen((authError) {
+            if (authError?.isNotEmpty == true) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  backgroundColor: Theme.of(context).errorColor,
+                  content: Text(
+                    authError!,
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              );
+            }
+          });
+
           return SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,

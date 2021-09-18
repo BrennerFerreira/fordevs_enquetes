@@ -15,6 +15,7 @@ class App extends StatelessWidget {
       primaryColor: primaryColor,
       primaryColorDark: primaryColorDark,
       primaryColorLight: primaryColorLight,
+      errorColor: Colors.red[900],
       backgroundColor: Colors.white,
       textTheme: const TextTheme(
         headline1: TextStyle(
