@@ -267,4 +267,13 @@ void main() {
 
     expect(find.text('auth error'), findsOneWidget);
   });
+
+  testWidgets('Should close streams on dispose', (tester) async {
+    // arrange
+    await loadPage(tester);
+
+    addTearDown(() {
+      verify(loginPresenter.dispose()).called(1);
+    });
+  });
 }

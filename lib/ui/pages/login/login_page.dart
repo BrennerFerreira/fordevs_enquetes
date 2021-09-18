@@ -4,16 +4,27 @@ import 'package:flutter/services.dart';
 import '../../components/components.dart';
 import 'login_presenter.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
   final LoginPresenter? loginPresenter;
   const LoginPage(this.loginPresenter, {Key? key}) : super(key: key);
+
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  @override
+  void dispose() {
+    widget.loginPresenter?.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Builder(
         builder: (context) {
-          loginPresenter?.isLoadingStream.listen((isLoading) {
+          widget.loginPresenter?.isLoadingStream.listen((isLoading) {
             if (isLoading) {
               showDialog(
                 context: context,
@@ -44,7 +55,7 @@ class LoginPage extends StatelessWidget {
             }
           });
 
-          loginPresenter?.authErrorStream.listen((authError) {
+          widget.loginPresenter?.authErrorStream.listen((authError) {
             if (authError?.isNotEmpty == true) {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
@@ -70,7 +81,7 @@ class LoginPage extends StatelessWidget {
                     child: Column(
                       children: [
                         StreamBuilder<String?>(
-                            stream: loginPresenter?.emailErrorStream,
+                            stream: widget.loginPresenter?.emailErrorStream,
                             builder: (context, snapshot) {
                               return TextFormField(
                                 decoration: InputDecoration(
@@ -84,13 +95,14 @@ class LoginPage extends StatelessWidget {
                                       : snapshot.data,
                                 ),
                                 keyboardType: TextInputType.emailAddress,
-                                onChanged: loginPresenter?.validateEmail,
+                                onChanged: widget.loginPresenter?.validateEmail,
                               );
                             }),
                         Padding(
                           padding: const EdgeInsets.only(top: 8.0, bottom: 32),
                           child: StreamBuilder<String?>(
-                              stream: loginPresenter?.passwordErrorStream,
+                              stream:
+                                  widget.loginPresenter?.passwordErrorStream,
                               builder: (context, snapshot) {
                                 return TextFormField(
                                   decoration: InputDecoration(
@@ -105,16 +117,17 @@ class LoginPage extends StatelessWidget {
                                         : snapshot.data,
                                   ),
                                   obscureText: true,
-                                  onChanged: loginPresenter?.validatePassword,
+                                  onChanged:
+                                      widget.loginPresenter?.validatePassword,
                                 );
                               }),
                         ),
                         StreamBuilder<bool>(
-                            stream: loginPresenter?.isFormValidStream,
+                            stream: widget.loginPresenter?.isFormValidStream,
                             builder: (context, snapshot) {
                               return ElevatedButton(
                                 onPressed: snapshot.data == true
-                                    ? loginPresenter?.auth
+                                    ? widget.loginPresenter?.auth
                                     : null,
                                 child: Text("Entrar".toUpperCase()),
                               );
