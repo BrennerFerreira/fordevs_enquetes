@@ -80,7 +80,7 @@ class App extends StatelessWidget {
           secondaryVariant: primaryColorLight,
         ),
       ),
-      home: LoginPage(),
+      home: const LoginPage(null),
     );
   }
 }

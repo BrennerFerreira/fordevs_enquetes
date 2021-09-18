@@ -1,10 +1,18 @@
+import 'package:faker/faker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fordevs_enquetes/ui/pages/pages.dart';
+import 'package:mockito/annotations.dart';
+import 'package:mockito/mockito.dart';
 
+import 'login_page_test.mocks.dart';
+
+@GenerateMocks([LoginPresenter])
 void main() {
+  late MockLoginPresenter loginPresenter;
   Future<void> loadPage(WidgetTester tester) async {
-    const loginPage = MaterialApp(home: LoginPage());
+    loginPresenter = MockLoginPresenter();
+    final loginPage = MaterialApp(home: LoginPage(loginPresenter));
     await tester.pumpWidget(loginPage);
   }
 
@@ -44,5 +52,18 @@ void main() {
     );
 
     expect(loginButton.onPressed, null);
+  });
+
+  testWidgets('Should call validate with correct values', (tester) async {
+    // arrange
+    await loadPage(tester);
+
+    final email = faker.internet.email();
+    await tester.enterText(find.bySemanticsLabel('E-mail'), email);
+    verify(loginPresenter.validateEmail(email));
+
+    final password = faker.internet.password();
+    await tester.enterText(find.bySemanticsLabel('Senha'), password);
+    verify(loginPresenter.validatePassword(password));
   });
 }
