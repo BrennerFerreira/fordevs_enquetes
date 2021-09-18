@@ -87,6 +87,8 @@ void main() {
     );
 
     expect(loginButton.onPressed, null);
+
+    expect(find.byType(CircularProgressIndicator), findsNothing);
   });
 
   testWidgets('Should call validate with correct values', (tester) async {
@@ -234,5 +236,17 @@ void main() {
     await tester.pump();
 
     expect(find.byType(CircularProgressIndicator), findsOneWidget);
+  });
+
+  testWidgets('Should hide loading', (tester) async {
+    // arrange
+    await loadPage(tester);
+
+    isLoadingController.add(true);
+    await tester.pump();
+    isLoadingController.add(false);
+    await tester.pump();
+
+    expect(find.byType(CircularProgressIndicator), findsNothing);
   });
 }
