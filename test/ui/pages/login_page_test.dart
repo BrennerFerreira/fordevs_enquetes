@@ -12,10 +12,10 @@ import 'login_page_test.mocks.dart';
 @GenerateMocks([LoginPresenter])
 void main() {
   late MockLoginPresenter loginPresenter;
-  late StreamController<String> emailErrorController;
+  late StreamController<String?> emailErrorController;
 
   Future<void> loadPage(WidgetTester tester) async {
-    emailErrorController = StreamController<String>();
+    emailErrorController = StreamController<String?>();
     loginPresenter = MockLoginPresenter();
 
     when(loginPresenter.emailErrorStream).thenAnswer(
@@ -87,5 +87,37 @@ void main() {
     await tester.pump();
 
     expect(find.text('any error'), findsOneWidget);
+  });
+
+  testWidgets('Should present no error if email is valid', (tester) async {
+    // arrange
+    await loadPage(tester);
+
+    emailErrorController.add(null);
+    await tester.pump();
+
+    final emailTextChildren = find.descendant(
+      of: find.bySemanticsLabel('E-mail'),
+      matching: find.byType(Text),
+    );
+
+    expect(emailTextChildren, findsOneWidget);
+  });
+
+  testWidgets(
+      'Should present no error if email is valid and LoginPresenter returns an empty string',
+      (tester) async {
+    // arrange
+    await loadPage(tester);
+
+    emailErrorController.add('');
+    await tester.pump();
+
+    final emailTextChildren = find.descendant(
+      of: find.bySemanticsLabel('E-mail'),
+      matching: find.byType(Text),
+    );
+
+    expect(emailTextChildren, findsOneWidget);
   });
 }
