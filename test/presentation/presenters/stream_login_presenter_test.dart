@@ -22,10 +22,20 @@ void main() {
   test('Should call Validation with correct email', () {
     when(
       validation.validate(field: anyNamed('field'), value: anyNamed('value')),
-    ).thenAnswer((_) => null);
+    ).thenReturn(null);
 
     sut.validateEmail(email);
 
     verify(validation.validate(field: 'email', value: email)).called(1);
+  });
+
+  test('Should emit email error if Validation fails', () {
+    when(
+      validation.validate(field: anyNamed('field'), value: anyNamed('value')),
+    ).thenReturn('any error');
+
+    expectLater(sut.emailErrorStream, emits('any error'));
+
+    sut.validateEmail(email);
   });
 }
