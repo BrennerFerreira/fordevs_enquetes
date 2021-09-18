@@ -34,15 +34,7 @@ class _LoginPageState extends State<LoginPage> {
 
           widget.loginPresenter?.authErrorStream.listen((authError) {
             if (authError?.isNotEmpty == true) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  backgroundColor: Theme.of(context).errorColor,
-                  content: Text(
-                    authError!,
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-              );
+              showErrorMessage(context, text: authError!);
             }
           });
 
