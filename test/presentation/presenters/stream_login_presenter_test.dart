@@ -13,26 +13,31 @@ void main() {
   late StreamLoginPresenter sut;
   late String email;
 
+  PostExpectation mockValidationCall({String? field}) => when(
+        validation.validate(
+          field: field ?? anyNamed('field'),
+          value: anyNamed('value'),
+        ),
+      );
+
+  void mockValidation({String? validationReturn, String? field}) =>
+      mockValidationCall(field: field).thenReturn(validationReturn);
+
   setUp(() {
     validation = MockValidation();
     sut = StreamLoginPresenter(validation: validation);
     email = faker.internet.email();
+    mockValidation();
   });
 
   test('Should call Validation with correct email', () {
-    when(
-      validation.validate(field: anyNamed('field'), value: anyNamed('value')),
-    ).thenReturn(null);
-
     sut.validateEmail(email);
 
     verify(validation.validate(field: 'email', value: email)).called(1);
   });
 
   test('Should emit email error if Validation fails', () {
-    when(
-      validation.validate(field: anyNamed('field'), value: anyNamed('value')),
-    ).thenReturn('any error');
+    mockValidation(validationReturn: 'any error');
 
     expectLater(sut.emailErrorStream, emits('any error'));
 
