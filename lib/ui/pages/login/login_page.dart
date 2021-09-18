@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 
 import '../../components/components.dart';
+import 'components/components.dart';
 import 'login_presenter.dart';
 
 class LoginPage extends StatefulWidget {
@@ -46,67 +47,54 @@ class _LoginPageState extends State<LoginPage> {
                 const Headline1(title: "Login"),
                 Padding(
                   padding: const EdgeInsets.all(32.0),
-                  child: Form(
-                    child: Column(
-                      children: [
-                        StreamBuilder<String?>(
-                            stream: widget.loginPresenter?.emailErrorStream,
-                            builder: (context, snapshot) {
-                              return TextFormField(
-                                decoration: InputDecoration(
-                                  labelText: "E-mail",
-                                  icon: Icon(
-                                    Icons.email,
-                                    color: Theme.of(context).primaryColorLight,
-                                  ),
-                                  errorText: snapshot.data?.isEmpty == true
-                                      ? null
-                                      : snapshot.data,
-                                ),
-                                keyboardType: TextInputType.emailAddress,
-                                onChanged: widget.loginPresenter?.validateEmail,
-                              );
-                            }),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 8.0, bottom: 32),
-                          child: StreamBuilder<String?>(
-                              stream:
-                                  widget.loginPresenter?.passwordErrorStream,
-                              builder: (context, snapshot) {
-                                return TextFormField(
-                                  decoration: InputDecoration(
-                                    labelText: "Senha",
-                                    icon: Icon(
-                                      Icons.lock,
-                                      color:
-                                          Theme.of(context).primaryColorLight,
+                  child: Provider<LoginPresenter?>(
+                    create: (context) => widget.loginPresenter,
+                    child: Form(
+                      child: Column(
+                        children: [
+                          const EmailInput(),
+                          Padding(
+                            padding:
+                                const EdgeInsets.only(top: 8.0, bottom: 32),
+                            child: StreamBuilder<String?>(
+                                stream:
+                                    widget.loginPresenter?.passwordErrorStream,
+                                builder: (context, snapshot) {
+                                  return TextFormField(
+                                    decoration: InputDecoration(
+                                      labelText: "Senha",
+                                      icon: Icon(
+                                        Icons.lock,
+                                        color:
+                                            Theme.of(context).primaryColorLight,
+                                      ),
+                                      errorText: snapshot.data?.isEmpty == true
+                                          ? null
+                                          : snapshot.data,
                                     ),
-                                    errorText: snapshot.data?.isEmpty == true
-                                        ? null
-                                        : snapshot.data,
-                                  ),
-                                  obscureText: true,
-                                  onChanged:
-                                      widget.loginPresenter?.validatePassword,
+                                    obscureText: true,
+                                    onChanged:
+                                        widget.loginPresenter?.validatePassword,
+                                  );
+                                }),
+                          ),
+                          StreamBuilder<bool>(
+                              stream: widget.loginPresenter?.isFormValidStream,
+                              builder: (context, snapshot) {
+                                return ElevatedButton(
+                                  onPressed: snapshot.data == true
+                                      ? widget.loginPresenter?.auth
+                                      : null,
+                                  child: Text("Entrar".toUpperCase()),
                                 );
                               }),
-                        ),
-                        StreamBuilder<bool>(
-                            stream: widget.loginPresenter?.isFormValidStream,
-                            builder: (context, snapshot) {
-                              return ElevatedButton(
-                                onPressed: snapshot.data == true
-                                    ? widget.loginPresenter?.auth
-                                    : null,
-                                child: Text("Entrar".toUpperCase()),
-                              );
-                            }),
-                        TextButton.icon(
-                          onPressed: () {},
-                          icon: const Icon(Icons.person),
-                          label: const Text("Criar conta"),
-                        ),
-                      ],
+                          TextButton.icon(
+                            onPressed: () {},
+                            icon: const Icon(Icons.person),
+                            label: const Text("Criar conta"),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
