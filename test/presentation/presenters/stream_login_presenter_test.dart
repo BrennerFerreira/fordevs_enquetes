@@ -9,10 +9,17 @@ import 'stream_login_presenter_test.mocks.dart';
 
 @GenerateMocks([Validation])
 void main() {
+  late MockValidation validation;
+  late StreamLoginPresenter sut;
+  late String email;
+
+  setUp(() {
+    validation = MockValidation();
+    sut = StreamLoginPresenter(validation: validation);
+    email = faker.internet.email();
+  });
+
   test('Should call Validation with correct email', () {
-    final validation = MockValidation();
-    final sut = StreamLoginPresenter(validation: validation);
-    final email = faker.internet.email();
     when(
       validation.validate(field: anyNamed('field'), value: anyNamed('value')),
     ).thenAnswer((_) => null);
