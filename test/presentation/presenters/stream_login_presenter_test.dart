@@ -1,7 +1,7 @@
 import 'package:faker/faker.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fordevs_enquetes/presentation/presenters/stream_login_presenter.dart';
-import 'package:fordevs_enquetes/presentation/presenters/validation.dart';
+import 'package:fordevs_enquetes/presentation/protocols/validation.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 

@@ -1,6 +1,10 @@
 import 'dart:async';
 
-import 'validation.dart';
+import '../protocols/protocols.dart';
+
+class LoginState {
+  String? emailError;
+}
 
 class StreamLoginPresenter {
   final Validation validation;
@@ -17,8 +21,4 @@ class StreamLoginPresenter {
     _state.emailError = validation.validate(field: 'email', value: email);
     _controller.add(_state);
   }
-}
-
-class LoginState {
-  String? emailError;
 }

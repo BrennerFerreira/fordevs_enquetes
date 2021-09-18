@@ -2,8 +2,7 @@
 // in fordevs_enquetes/test/presentation/presenters/stream_login_presenter_test.dart.
 // Do not manually edit this file.
 
-import 'package:fordevs_enquetes/presentation/presenters/validation.dart'
-    as _i2;
+import 'package:fordevs_enquetes/presentation/protocols/validation.dart' as _i2;
 import 'package:mockito/mockito.dart' as _i1;
 
 // ignore_for_file: avoid_redundant_argument_values
