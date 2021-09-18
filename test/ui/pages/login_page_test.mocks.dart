@@ -2,6 +2,8 @@
 // in fordevs_enquetes/test/ui/pages/login_page_test.dart.
 // Do not manually edit this file.
 
+import 'dart:async' as _i3;
+
 import 'package:fordevs_enquetes/ui/pages/login/login_presenter.dart' as _i2;
 import 'package:mockito/mockito.dart' as _i1;
 
@@ -21,6 +23,10 @@ class MockLoginPresenter extends _i1.Mock implements _i2.LoginPresenter {
     _i1.throwOnMissingStub(this);
   }
 
+  @override
+  _i3.Stream<dynamic> get emailErrorStream =>
+      (super.noSuchMethod(Invocation.getter(#emailErrorStream),
+          returnValue: Stream<dynamic>.empty()) as _i3.Stream<dynamic>);
   @override
   void validateEmail(String? email) =>
       super.noSuchMethod(Invocation.method(#validateEmail, [email]),
