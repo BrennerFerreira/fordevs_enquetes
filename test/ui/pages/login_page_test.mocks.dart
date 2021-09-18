@@ -28,6 +28,10 @@ class MockLoginPresenter extends _i1.Mock implements _i2.LoginPresenter {
       (super.noSuchMethod(Invocation.getter(#emailErrorStream),
           returnValue: Stream<dynamic>.empty()) as _i3.Stream<dynamic>);
   @override
+  _i3.Stream<dynamic> get passwordErrorStream =>
+      (super.noSuchMethod(Invocation.getter(#passwordErrorStream),
+          returnValue: Stream<dynamic>.empty()) as _i3.Stream<dynamic>);
+  @override
   void validateEmail(String? email) =>
       super.noSuchMethod(Invocation.method(#validateEmail, [email]),
           returnValueForMissingStub: null);

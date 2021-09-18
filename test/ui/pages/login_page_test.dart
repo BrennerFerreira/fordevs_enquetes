@@ -13,20 +13,29 @@ import 'login_page_test.mocks.dart';
 void main() {
   late MockLoginPresenter loginPresenter;
   late StreamController<String?> emailErrorController;
+  late StreamController<String?> passwordErrorController;
 
   Future<void> loadPage(WidgetTester tester) async {
     emailErrorController = StreamController<String?>();
+    passwordErrorController = StreamController<String?>();
     loginPresenter = MockLoginPresenter();
 
     when(loginPresenter.emailErrorStream).thenAnswer(
       (_) => emailErrorController.stream,
     );
 
+    when(loginPresenter.passwordErrorStream).thenAnswer(
+      (_) => passwordErrorController.stream,
+    );
+
     final loginPage = MaterialApp(home: LoginPage(loginPresenter));
     await tester.pumpWidget(loginPage);
   }
 
-  tearDown(() => emailErrorController.close());
+  tearDown(() {
+    passwordErrorController.close();
+    emailErrorController.close();
+  });
 
   testWidgets('Should load with correct initial state', (tester) async {
     // arrange
@@ -119,5 +128,15 @@ void main() {
     );
 
     expect(emailTextChildren, findsOneWidget);
+  });
+
+  testWidgets('Should present error if password is invalid', (tester) async {
+    // arrange
+    await loadPage(tester);
+
+    passwordErrorController.add('any error');
+    await tester.pump();
+
+    expect(find.text('any error'), findsOneWidget);
   });
 }
