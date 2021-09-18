@@ -192,4 +192,18 @@ void main() {
 
     expect(loginButton.onPressed, isNotNull);
   });
+
+  testWidgets('Should disable login button if form is invalid', (tester) async {
+    // arrange
+    await loadPage(tester);
+
+    isFormValidController.add(false);
+    await tester.pump();
+
+    final loginButton = tester.widget<ElevatedButton>(
+      find.byType(ElevatedButton),
+    );
+
+    expect(loginButton.onPressed, null);
+  });
 }
