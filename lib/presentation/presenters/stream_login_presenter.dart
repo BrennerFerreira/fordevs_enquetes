@@ -13,9 +13,11 @@ class StreamLoginPresenter {
 
   StreamLoginPresenter({required this.validation});
 
-  Stream<String?> get emailErrorStream => _controller.stream.map(
+  Stream<String?> get emailErrorStream => _controller.stream
+      .map(
         (state) => state.emailError,
-      );
+      )
+      .distinct();
 
   void validateEmail(String email) {
     _state.emailError = validation.validate(field: 'email', value: email);

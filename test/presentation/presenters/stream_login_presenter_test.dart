@@ -39,8 +39,21 @@ void main() {
   test('Should emit email error if Validation fails', () {
     mockValidation(validationReturn: 'any error');
 
-    expectLater(sut.emailErrorStream, emits('any error'));
+    sut.emailErrorStream.listen(expectAsync1(
+      (error) => expect(error, 'any error'),
+    ));
 
+    sut.validateEmail(email);
+  });
+
+  test('Should not emit email error again if LoginState does not changes', () {
+    mockValidation(validationReturn: 'any error');
+
+    sut.emailErrorStream.listen(expectAsync1(
+      (error) => expect(error, 'any error'),
+    ));
+
+    sut.validateEmail(email);
     sut.validateEmail(email);
   });
 }
