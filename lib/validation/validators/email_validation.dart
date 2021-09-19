@@ -10,6 +10,14 @@ class EmailValidation implements FieldValidation {
 
   @override
   String? validate({String? value}) {
-    return null;
+    if (value == null || value.isEmpty) {
+      return null;
+    }
+
+    final regex = RegExp(
+      r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+",
+    );
+
+    return regex.hasMatch(value) ? null : 'E-mail inválido';
   }
 }
