@@ -2,7 +2,11 @@
 // in fordevs_enquetes/test/presentation/presenters/stream_login_presenter_test.dart.
 // Do not manually edit this file.
 
-import 'package:fordevs_enquetes/presentation/protocols/validation.dart' as _i2;
+import 'dart:async' as _i5;
+
+import 'package:fordevs_enquetes/domain/entities/entities.dart' as _i2;
+import 'package:fordevs_enquetes/domain/usecases/authentication.dart' as _i4;
+import 'package:fordevs_enquetes/presentation/protocols/validation.dart' as _i3;
 import 'package:mockito/mockito.dart' as _i1;
 
 // ignore_for_file: avoid_redundant_argument_values
@@ -13,10 +17,12 @@ import 'package:mockito/mockito.dart' as _i1;
 // ignore_for_file: prefer_const_constructors
 // ignore_for_file: unnecessary_parenthesis
 
+class _FakeAccountEntity_0 extends _i1.Fake implements _i2.AccountEntity {}
+
 /// A class which mocks [Validation].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockValidation extends _i1.Mock implements _i2.Validation {
+class MockValidation extends _i1.Mock implements _i3.Validation {
   MockValidation() {
     _i1.throwOnMissingStub(this);
   }
@@ -25,6 +31,24 @@ class MockValidation extends _i1.Mock implements _i2.Validation {
   String? validate({String? field, String? value}) => (super.noSuchMethod(
           Invocation.method(#validate, [], {#field: field, #value: value}))
       as String?);
+  @override
+  String toString() => super.toString();
+}
+
+/// A class which mocks [Authentication].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockAuthentication extends _i1.Mock implements _i4.Authentication {
+  MockAuthentication() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i5.Future<_i2.AccountEntity> auth(_i4.AuthenticationParams? params) =>
+      (super.noSuchMethod(Invocation.method(#auth, [params]),
+              returnValue:
+                  Future<_i2.AccountEntity>.value(_FakeAccountEntity_0()))
+          as _i5.Future<_i2.AccountEntity>);
   @override
   String toString() => super.toString();
 }
