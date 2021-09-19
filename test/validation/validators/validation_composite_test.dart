@@ -24,10 +24,10 @@ void main() {
 
   setUp(() {
     validation1 = MockFieldValidation();
-    mockValidationField(validation1);
+    mockValidationField(validation1, fieldName: 'other field');
 
     validation2 = MockFieldValidation();
-    mockValidationField(validation2, fieldName: 'other field');
+    mockValidationField(validation2);
 
     validation3 = MockFieldValidation();
     mockValidationField(validation3);
@@ -52,5 +52,19 @@ void main() {
     final error = sut.validate(field: 'any field', value: 'any value');
 
     expect(error, 'error validation 1');
+  });
+
+  test('Should return the first error of the field requested', () {
+    mockValidationField(
+      validation1,
+      fieldName: 'other field',
+      error: 'error validation 1',
+    );
+    mockValidationField(validation2, error: 'error validation 2');
+    mockValidationField(validation3, error: 'error validation 3');
+
+    final error = sut.validate(field: 'any field', value: 'any value');
+
+    expect(error, 'error validation 2');
   });
 }
