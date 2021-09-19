@@ -1,4 +1,4 @@
-import 'package:fordevs_enquetes/validation/validators/field_validation.dart';
+import '../protocols/protocols.dart';
 
 class RequiredFieldValidation implements FieldValidation {
   final String _field;

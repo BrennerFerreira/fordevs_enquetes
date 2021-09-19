@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:fordevs_enquetes/validation/validators/required_field_validation.dart';
+import 'package:fordevs_enquetes/validation/validators/validators.dart';
 
 void main() {
   late RequiredFieldValidation sut;
