@@ -9,5 +9,7 @@ class RequiredFieldValidation implements FieldValidation {
   String get field => _field;
 
   @override
-  String? validate(String value) {}
+  String? validate({String? value}) {
+    return value == null || value.isEmpty ? 'Campo obrigatório' : null;
+  }
 }
