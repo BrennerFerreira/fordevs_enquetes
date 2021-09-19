@@ -1,7 +1,6 @@
 import 'dart:async';
 
-import 'package:fordevs_enquetes/domain/errors/domain_error.dart';
-
+import '../../domain/errors/domain_error.dart';
 import '../../domain/usecases/usecases.dart';
 import '../protocols/protocols.dart';
 
