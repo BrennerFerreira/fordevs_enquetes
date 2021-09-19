@@ -1,4 +1,4 @@
-export 'app.dart';
+export 'app_theme.dart';
 export 'error_snack_bar.dart';
 export 'headline_1.dart';
 export 'loading_dialog.dart';
