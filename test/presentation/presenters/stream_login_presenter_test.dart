@@ -120,4 +120,23 @@ void main() {
     sut.validatePassword(password);
     sut.validatePassword(password);
   });
+
+  test('Should emit error if only one Validation succeeds', () {
+    mockValidation(field: 'email', validationReturn: 'any error');
+
+    sut.emailErrorStream.listen(expectAsync1(
+      (error) => expect(error, 'any error'),
+    ));
+
+    sut.passwordErrorStream.listen(expectAsync1(
+      (error) => expect(error, null),
+    ));
+
+    sut.isFormValidStream.listen(expectAsync1(
+      (isValid) => expect(isValid, false),
+    ));
+
+    sut.validateEmail(email);
+    sut.validatePassword(password);
+  });
 }
