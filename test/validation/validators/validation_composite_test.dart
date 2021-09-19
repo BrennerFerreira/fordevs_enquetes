@@ -8,16 +8,36 @@ import 'validation_composite_test.mocks.dart';
 
 @GenerateMocks([FieldValidation])
 void main() {
+  late MockFieldValidation validation1;
+  late MockFieldValidation validation2;
+  late MockFieldValidation validation3;
+  late ValidationComposite sut;
+
+  void mockValidationField(
+    MockFieldValidation fieldValidation, {
+    String fieldName = 'any field',
+    String? error,
+  }) {
+    when(fieldValidation.field).thenReturn(fieldName);
+    when(fieldValidation.validate(value: anyNamed('value'))).thenReturn(error);
+  }
+
+  setUp(() {
+    validation1 = MockFieldValidation();
+    mockValidationField(validation1);
+
+    validation2 = MockFieldValidation();
+    mockValidationField(validation2);
+
+    validation3 = MockFieldValidation();
+    mockValidationField(validation3, fieldName: 'other field');
+
+    sut = ValidationComposite([validation1, validation2, validation3]);
+  });
+
   test('Should return null if all validators return null or empty', () {
-    final validation1 = MockFieldValidation();
-    when(validation1.field).thenReturn('any field');
-    when(validation1.validate(value: anyNamed('value'))).thenReturn(null);
+    mockValidationField(validation2, error: '');
 
-    final validation2 = MockFieldValidation();
-    when(validation2.field).thenReturn('any field');
-    when(validation2.validate(value: anyNamed('value'))).thenReturn('');
-
-    final sut = ValidationComposite([validation1, validation2]);
     final error = sut.validate(field: 'any field', value: 'any value');
 
     expect(error, null);
