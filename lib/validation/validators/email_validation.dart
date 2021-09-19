@@ -1,9 +1,11 @@
-import 'package:fordevs_enquetes/validation/protocols/protocols.dart';
+import 'package:equatable/equatable.dart';
 
-class EmailValidation implements FieldValidation {
+import '../protocols/protocols.dart';
+
+class EmailValidation extends Equatable implements FieldValidation {
   final String _field;
 
-  EmailValidation(this._field);
+  const EmailValidation(this._field);
 
   @override
   String get field => _field;
@@ -20,4 +22,7 @@ class EmailValidation implements FieldValidation {
 
     return regex.hasMatch(value) ? null : 'E-mail inválido';
   }
+
+  @override
+  List<String> get props => [_field];
 }

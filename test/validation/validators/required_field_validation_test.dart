@@ -5,7 +5,7 @@ void main() {
   late RequiredFieldValidation sut;
 
   setUp(() {
-    sut = RequiredFieldValidation('any field');
+    sut = const RequiredFieldValidation('any field');
   });
 
   test('Should return null if value is not empty', () {

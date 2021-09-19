@@ -1,9 +1,8 @@
 import 'dart:async';
 
-import 'package:fordevs_enquetes/ui/pages/pages.dart';
-
 import '../../domain/errors/domain_error.dart';
 import '../../domain/usecases/usecases.dart';
+import '../../ui/pages/pages.dart';
 import '../protocols/protocols.dart';
 
 class LoginState {

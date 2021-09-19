@@ -1,9 +1,11 @@
+import 'package:equatable/equatable.dart';
+
 import '../protocols/protocols.dart';
 
-class RequiredFieldValidation implements FieldValidation {
+class RequiredFieldValidation extends Equatable implements FieldValidation {
   final String _field;
 
-  RequiredFieldValidation(this._field);
+  const RequiredFieldValidation(this._field);
 
   @override
   String get field => _field;
@@ -12,4 +14,7 @@ class RequiredFieldValidation implements FieldValidation {
   String? validate({String? value}) {
     return value == null || value.isEmpty ? 'Campo obrigatório' : null;
   }
+
+  @override
+  List<String> get props => [_field];
 }
