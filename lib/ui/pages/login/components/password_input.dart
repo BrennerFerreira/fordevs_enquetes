@@ -8,9 +8,9 @@ class PasswordInput extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final loginPresenter = Provider.of<LoginPresenter?>(context);
+    final loginPresenter = Provider.of<LoginPresenter>(context);
     return StreamBuilder<String?>(
-      stream: loginPresenter?.passwordErrorStream,
+      stream: loginPresenter.passwordErrorStream,
       builder: (context, snapshot) {
         return TextFormField(
           decoration: InputDecoration(
@@ -22,7 +22,7 @@ class PasswordInput extends StatelessWidget {
             errorText: snapshot.data?.isEmpty == true ? null : snapshot.data,
           ),
           obscureText: true,
-          onChanged: loginPresenter?.validatePassword,
+          onChanged: loginPresenter.validatePassword,
         );
       },
     );
