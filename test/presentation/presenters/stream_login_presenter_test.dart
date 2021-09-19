@@ -1,6 +1,7 @@
 import 'package:faker/faker.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fordevs_enquetes/domain/entities/entities.dart';
+import 'package:fordevs_enquetes/domain/errors/domain_error.dart';
 import 'package:fordevs_enquetes/domain/usecases/usecases.dart';
 import 'package:fordevs_enquetes/presentation/presenters/stream_login_presenter.dart';
 import 'package:fordevs_enquetes/presentation/protocols/protocols.dart';
@@ -32,6 +33,9 @@ void main() {
   void mockAuthentication() => mockAuthenticationCall().thenAnswer(
         (_) async => AccountEntity(faker.guid.guid()),
       );
+
+  void mockAuthenticationError(DomainError error) =>
+      mockAuthenticationCall().thenThrow(error);
 
   setUp(() {
     validation = MockValidation();
@@ -188,6 +192,20 @@ void main() {
     sut.validatePassword(password);
 
     expectLater(sut.isLoadingStream, emitsInOrder([true, false]));
+
+    await sut.auth();
+  });
+
+  test('Should emit correct events on InvalidCredentialsError', () async {
+    mockAuthenticationError(DomainError.invalidCredentials);
+    sut.validateEmail(email);
+    sut.validatePassword(password);
+
+    expectLater(sut.isLoadingStream, emits(false));
+
+    sut.authErrorStream.listen(expectAsync1(
+      (error) => expect(error, 'E-mail e/ou senha incorretos.'),
+    ));
 
     await sut.auth();
   });
