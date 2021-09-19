@@ -2,19 +2,18 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:fordevs_enquetes/validation/validators/required_field_validation.dart';
 
 void main() {
-  test('Should return null if value is not empty', () {
-    final sut = RequiredFieldValidation('any field');
+  late RequiredFieldValidation sut;
 
-    final error = sut.validate(value: 'any value');
-
-    expect(error, null);
+  setUp(() {
+    sut = RequiredFieldValidation('any field');
   });
 
-  test('Should return value if value is empty', () {
-    final sut = RequiredFieldValidation('any field');
+  test('Should return null if value is not empty', () {
+    expect(sut.validate(value: 'any value'), null);
+  });
 
-    final error = sut.validate();
-
-    expect(error, 'Campo obrigatório');
+  test('Should return value if value is null or empty', () {
+    expect(sut.validate(), 'Campo obrigatório');
+    expect(sut.validate(value: ''), 'Campo obrigatório');
   });
 }
