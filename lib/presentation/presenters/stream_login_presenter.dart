@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:fordevs_enquetes/ui/pages/pages.dart';
+
 import '../../domain/errors/domain_error.dart';
 import '../../domain/usecases/usecases.dart';
 import '../protocols/protocols.dart';
@@ -18,7 +20,7 @@ class LoginState {
       passwordError == null;
 }
 
-class StreamLoginPresenter {
+class StreamLoginPresenter implements LoginPresenter {
   final Validation validation;
   final Authentication authentication;
   final _controller = StreamController<LoginState>.broadcast();
@@ -29,18 +31,23 @@ class StreamLoginPresenter {
     required this.authentication,
   });
 
+  @override
   Stream<String?> get emailErrorStream =>
       _controller.stream.map((state) => state.emailError).distinct();
 
+  @override
   Stream<String?> get passwordErrorStream =>
       _controller.stream.map((state) => state.passwordError).distinct();
 
+  @override
   Stream<String?> get authErrorStream =>
       _controller.stream.map((state) => state.authError).distinct();
 
+  @override
   Stream<bool> get isFormValidStream =>
       _controller.stream.map((state) => state.isFormValid).distinct();
 
+  @override
   Stream<bool> get isLoadingStream =>
       _controller.stream.map((state) => state.isLoading).distinct();
 
@@ -50,12 +57,14 @@ class StreamLoginPresenter {
     }
   }
 
+  @override
   void validateEmail(String email) {
     _state.email = email;
     _state.emailError = validation.validate(field: 'email', value: email);
     _update();
   }
 
+  @override
   void validatePassword(String password) {
     _state.password = password;
     _state.passwordError = validation.validate(
@@ -66,6 +75,7 @@ class StreamLoginPresenter {
     _update();
   }
 
+  @override
   Future<void> auth() async {
     _state.isLoading = true;
     _update();
@@ -84,6 +94,7 @@ class StreamLoginPresenter {
     }
   }
 
+  @override
   void dispose() {
     _controller.close();
   }

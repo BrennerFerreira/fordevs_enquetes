@@ -10,6 +10,7 @@ ThemeData makeAppTheme() {
     primaryColorLight: primaryColorLight,
     errorColor: Colors.red[900],
     backgroundColor: Colors.white,
+    disabledColor: Colors.grey,
     textTheme: const TextTheme(
       headline1: TextStyle(
         fontSize: 30,
@@ -19,6 +20,7 @@ ThemeData makeAppTheme() {
     ),
     textSelectionTheme: const TextSelectionThemeData(
       cursorColor: primaryColor,
+      selectionHandleColor: primaryColor,
     ),
     inputDecorationTheme: const InputDecorationTheme(
       enabledBorder: UnderlineInputBorder(
@@ -32,14 +34,23 @@ ThemeData makeAppTheme() {
     ),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ButtonStyle(
-        backgroundColor: MaterialStateProperty.all<Color>(primaryColor),
-        overlayColor: MaterialStateProperty.resolveWith(
+        backgroundColor: MaterialStateProperty.resolveWith<Color>(
+          (states) {
+            if (states.contains(MaterialState.disabled)) {
+              return Colors.grey;
+            }
+
+            return primaryColor;
+          },
+        ),
+        overlayColor: MaterialStateProperty.resolveWith<Color?>(
           (states) {
             return states.contains(MaterialState.pressed)
                 ? primaryColorLight
                 : null;
           },
         ),
+        foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
         padding: MaterialStateProperty.all<EdgeInsets>(
           const EdgeInsets.symmetric(vertical: 16, horizontal: 32),
         ),

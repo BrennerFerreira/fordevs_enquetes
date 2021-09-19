@@ -6,7 +6,7 @@ import 'components/components.dart';
 import 'login_presenter.dart';
 
 class LoginPage extends StatefulWidget {
-  final LoginPresenter? loginPresenter;
+  final LoginPresenter loginPresenter;
   const LoginPage(this.loginPresenter, {Key? key}) : super(key: key);
 
   @override
@@ -16,7 +16,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   @override
   void dispose() {
-    widget.loginPresenter?.dispose();
+    widget.loginPresenter.dispose();
     super.dispose();
   }
 
@@ -25,7 +25,7 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       body: Builder(
         builder: (context) {
-          widget.loginPresenter?.isLoadingStream.listen((isLoading) {
+          widget.loginPresenter.isLoadingStream.listen((isLoading) {
             if (isLoading) {
               showLoading(context);
             } else {
@@ -33,7 +33,7 @@ class _LoginPageState extends State<LoginPage> {
             }
           });
 
-          widget.loginPresenter?.authErrorStream.listen((authError) {
+          widget.loginPresenter.authErrorStream.listen((authError) {
             if (authError?.isNotEmpty == true) {
               showErrorMessage(context, text: authError!);
             }
