@@ -27,10 +27,10 @@ void main() {
     mockValidationField(validation1);
 
     validation2 = MockFieldValidation();
-    mockValidationField(validation2);
+    mockValidationField(validation2, fieldName: 'other field');
 
     validation3 = MockFieldValidation();
-    mockValidationField(validation3, fieldName: 'other field');
+    mockValidationField(validation3);
 
     sut = ValidationComposite([validation1, validation2, validation3]);
   });
@@ -41,5 +41,16 @@ void main() {
     final error = sut.validate(field: 'any field', value: 'any value');
 
     expect(error, null);
+  });
+
+  test('Should return the first error if one or more fields returns an error',
+      () {
+    mockValidationField(validation1, error: 'error validation 1');
+    mockValidationField(validation2, error: 'error validation 2');
+    mockValidationField(validation3, error: 'error validation 3');
+
+    final error = sut.validate(field: 'any field', value: 'any value');
+
+    expect(error, 'error validation 1');
   });
 }
