@@ -9,12 +9,18 @@ import './local_storage_adapter_test.mocks.dart';
 
 @GenerateMocks([FlutterSecureStorage])
 void main() {
-  test('Should call save secure with correct methods', () async {
-    final secureStorage = MockFlutterSecureStorage();
-    final sut = LocalStorageAdapter(secureStorage: secureStorage);
-    final key = faker.lorem.word();
-    final value = faker.guid.guid();
+  late MockFlutterSecureStorage secureStorage;
+  late LocalStorageAdapter sut;
+  late String key;
+  late String value;
 
+  setUp(() {
+    secureStorage = MockFlutterSecureStorage();
+    sut = LocalStorageAdapter(secureStorage: secureStorage);
+    key = faker.lorem.word();
+    value = faker.guid.guid();
+  });
+  test('Should call save secure with correct methods', () async {
     await sut.saveSecure(key: key, value: value);
 
     verify(secureStorage.write(key: key, value: value));
