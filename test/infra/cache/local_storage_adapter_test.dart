@@ -25,4 +25,13 @@ void main() {
 
     verify(secureStorage.write(key: key, value: value));
   });
+
+  test('Should throw if saveSecure throws', () async {
+    when(secureStorage.write(key: anyNamed('key'), value: anyNamed('value')))
+        .thenThrow(Exception());
+
+    final futureResult = sut.saveSecure(key: key, value: value);
+
+    expect(futureResult, throwsException);
+  });
 }
