@@ -1,8 +1,7 @@
-import 'package:fordevs_enquetes/data/usecases/save_current_account/save_cache_storage.dart';
-import 'package:fordevs_enquetes/domain/errors/domain_error.dart';
-
 import '../../../domain/entities/entities.dart';
+import '../../../domain/errors/errors.dart';
 import '../../../domain/usecases/usecases.dart';
+import '../../cache/cache.dart';
 
 class LocalSaveCurrentAccount implements SaveCurrentAccount {
   final SaveSecureCacheStorage saveSecureCacheStorage;

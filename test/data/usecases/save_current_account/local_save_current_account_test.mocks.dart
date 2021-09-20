@@ -4,7 +4,7 @@
 
 import 'dart:async' as _i3;
 
-import 'package:fordevs_enquetes/data/usecases/save_current_account/save_cache_storage.dart'
+import 'package:fordevs_enquetes/data/cache/save_secure_cache_storage.dart'
     as _i2;
 import 'package:mockito/mockito.dart' as _i1;
 

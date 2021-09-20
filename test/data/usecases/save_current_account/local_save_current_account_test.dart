@@ -1,9 +1,9 @@
 import 'package:faker/faker.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:fordevs_enquetes/data/usecases/save_current_account/save_cache_storage.dart';
+import 'package:fordevs_enquetes/data/cache/cache.dart';
 import 'package:fordevs_enquetes/data/usecases/save_current_account/save_current_account.dart';
-import 'package:fordevs_enquetes/domain/entities/account_entity.dart';
-import 'package:fordevs_enquetes/domain/errors/domain_error.dart';
+import 'package:fordevs_enquetes/domain/entities/entities.dart';
+import 'package:fordevs_enquetes/domain/errors/errors.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 
