@@ -11,13 +11,18 @@ import './local_save_current_account_test.mocks.dart';
 
 @GenerateMocks([SaveSecureCacheStorage])
 void main() {
-  test('Should call SaveCacheStorage with correct values', () async {
-    final saveSecureCacheStorage = MockSaveSecureCacheStorage();
-    final sut = LocalSaveCurrentAccount(
+  late MockSaveSecureCacheStorage saveSecureCacheStorage;
+  late LocalSaveCurrentAccount sut;
+  late AccountEntity account;
+  setUp(() {
+    saveSecureCacheStorage = MockSaveSecureCacheStorage();
+    sut = LocalSaveCurrentAccount(
       saveSecureCacheStorage: saveSecureCacheStorage,
     );
-    final account = AccountEntity(faker.guid.guid());
+    account = AccountEntity(faker.guid.guid());
+  });
 
+  test('Should call SaveCacheStorage with correct values', () async {
     await sut.save(account);
 
     verify(
@@ -26,12 +31,6 @@ void main() {
   });
 
   test('Should throw UnexpectedError if save fails', () async {
-    final saveSecureCacheStorage = MockSaveSecureCacheStorage();
-    final sut = LocalSaveCurrentAccount(
-      saveSecureCacheStorage: saveSecureCacheStorage,
-    );
-    final account = AccountEntity(faker.guid.guid());
-
     when(saveSecureCacheStorage.saveSecure(
       key: anyNamed('key'),
       value: anyNamed('value'),
