@@ -1,38 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 
 import '../../components/components.dart';
 import 'components/components.dart';
 import 'login_presenter.dart';
 
-class LoginPage extends StatefulWidget {
+class LoginPage extends StatelessWidget {
   final LoginPresenter loginPresenter;
   const LoginPage(this.loginPresenter, {Key? key}) : super(key: key);
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
-}
-
-class _LoginPageState extends State<LoginPage> {
-  @override
-  void dispose() {
-    widget.loginPresenter.dispose();
-    super.dispose();
-  }
-
-  void _hideKeyboard() {
-    final currentFocus = FocusScope.of(context);
-    if (!currentFocus.hasPrimaryFocus) {
-      currentFocus.unfocus();
-    }
-  }
-
-  @override
   Widget build(BuildContext context) {
+    void _hideKeyboard() {
+      final currentFocus = FocusScope.of(context);
+      if (!currentFocus.hasPrimaryFocus) {
+        currentFocus.unfocus();
+      }
+    }
+
     return Scaffold(
       body: Builder(
         builder: (context) {
-          widget.loginPresenter.isLoadingStream.listen((isLoading) {
+          loginPresenter.isLoadingStream.listen((isLoading) {
             if (isLoading) {
               showLoading(context);
             } else {
@@ -40,9 +30,15 @@ class _LoginPageState extends State<LoginPage> {
             }
           });
 
-          widget.loginPresenter.authErrorStream.listen((authError) {
+          loginPresenter.authErrorStream.listen((authError) {
             if (authError?.isNotEmpty == true) {
               showErrorMessage(context, text: authError!);
+            }
+          });
+
+          loginPresenter.navigateToStream.listen((page) {
+            if (page?.isNotEmpty == true) {
+              Get.offAllNamed(page!);
             }
           });
 
@@ -57,7 +53,7 @@ class _LoginPageState extends State<LoginPage> {
                   Padding(
                     padding: const EdgeInsets.all(32.0),
                     child: Provider<LoginPresenter>(
-                      create: (context) => widget.loginPresenter,
+                      create: (context) => loginPresenter,
                       child: Form(
                         child: Column(
                           children: [
